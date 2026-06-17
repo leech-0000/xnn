@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Catch-all Safeguard
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Auth helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Users Collection Rule Set
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Diet Logs Collection Rule Set (supports date-based logId)
+    match /diet_logs/{logId} {
+      allow read: if isSignedIn() && (resource == null || resource.data.userId == request.auth.uid);
+      allow write: if isSignedIn() && (request.resource == null || request.resource.data.userId == request.auth.uid) && (resource == null || resource.data.userId == request.auth.uid);
+    }
+
+    // Diet Projects Collection Rule Set
+    match /projects/{projectId} {
+      allow read: if isSignedIn() && (resource == null || resource.data.userId == request.auth.uid);
+      allow write: if isSignedIn() && (request.resource == null || request.resource.data.userId == request.auth.uid) && (resource == null || resource.data.userId == request.auth.uid);
+    }
+
+    // Tasks Collection Rule Set
+    match /tasks/{taskId} {
+      allow read: if isSignedIn() && (resource == null || resource.data.userId == request.auth.uid);
+      allow write: if isSignedIn() && (request.resource == null || request.resource.data.userId == request.auth.uid) && (resource == null || resource.data.userId == request.auth.uid);
+    }
+
+    // Weight歷史紀錄 Rule Set
+    match /weight_history/{entryId} {
+      allow read: if isSignedIn() && (resource == null || resource.data.userId == request.auth.uid);
+      allow write: if isSignedIn() && (request.resource == null || request.resource.data.userId == request.auth.uid) && (resource == null || resource.data.userId == request.auth.uid);
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "AI健身數據",
+  "description": "具備 AI 飲食解析與 Firestore 自動同步的高規格繁體中文體重管理、健身專案與任務追蹤儀表板。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

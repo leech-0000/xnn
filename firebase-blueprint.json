@@ -1,0 +1,192 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "用戶個人基本資料與健康標準值",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "姓名或暱稱"
+        },
+        "gender": {
+          "type": "string",
+          "enum": ["male", "female", "other"],
+          "description": "性別（男、女、其他）"
+        },
+        "age": {
+          "type": "number",
+          "description": "年齡"
+        },
+        "height": {
+          "type": "number",
+          "description": "身高（公分）"
+        },
+        "weight": {
+          "type": "number",
+          "description": "體重（公斤）"
+        },
+        "dailyWaterGoal": {
+          "type": "number",
+          "description": "每日水分攝取目標（毫升）"
+        },
+        "dailyTdeeGoal": {
+          "type": "number",
+          "description": "每日 TDEE 目標（大卡）"
+        }
+      },
+      "required": ["name", "gender", "age", "height", "weight", "dailyWaterGoal", "dailyTdeeGoal"]
+    },
+    "DietLog": {
+      "title": "DietLog",
+      "description": "每日飲食攝取日誌紀錄",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "日誌唯一識別碼"
+        },
+        "userId": {
+          "type": "string",
+          "description": "用戶唯一識別碼"
+        },
+        "date": {
+          "type": "string",
+          "description": "紀錄日期（YYYY-MM-DD）"
+        },
+        "foods": {
+          "type": "array",
+          "description": "今日攝取的食物品項明細"
+        },
+        "totalCalories": {
+          "type": "number",
+          "description": "今日攝取總熱量"
+        },
+        "totalCarbs": {
+          "type": "number",
+          "description": "今日攝取總碳水化合物（克）"
+        },
+        "totalProtein": {
+          "type": "number",
+          "description": "今日攝取總蛋白質（克）"
+        },
+        "totalFat": {
+          "type": "number",
+          "description": "今日攝取總脂肪（克）"
+        }
+      },
+      "required": ["id", "userId", "date", "foods", "totalCalories", "totalCarbs", "totalProtein", "totalFat"]
+    },
+    "FitProject": {
+      "title": "FitProject",
+      "description": "健身與訓練大項專案規劃",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "專案唯一識別識別碼"
+        },
+        "userId": {
+          "type": "string",
+          "description": "申報用戶唯一識別碼"
+        },
+        "name": {
+          "type": "string",
+          "description": "專案名稱"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["ongoing", "completed"],
+          "description": "專案狀態（進行中、已完成）"
+        },
+        "dueDate": {
+          "type": "string",
+          "description": "截止日期"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "創建日期"
+        }
+      },
+      "required": ["id", "userId", "name", "status", "dueDate", "createdAt"]
+    },
+    "FitTask": {
+      "title": "FitTask",
+      "description": "每日微型運動與健康打卡任務",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "任務唯一識別碼"
+        },
+        "userId": {
+          "type": "string",
+          "description": "用戶唯一識別碼"
+        },
+        "title": {
+          "type": "string",
+          "description": "任務主題/主旨"
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "是否已打卡完成"
+        },
+        "dueDate": {
+          "type": "string",
+          "description": "預定完成日期"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "創建日期"
+        }
+      },
+      "required": ["id", "userId", "title", "completed", "dueDate", "createdAt"]
+    },
+    "WeightEntry": {
+      "title": "WeightEntry",
+      "description": "體重紀錄歷史點",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "體重記錄識別碼"
+        },
+        "userId": {
+          "type": "string",
+          "description": "用戶唯一識別碼"
+        },
+        "date": {
+          "type": "string",
+          "description": "紀錄日期（YYYY-MM-DD）"
+        },
+        "weight": {
+          "type": "number",
+          "description": "體重數據（公斤）"
+        }
+      },
+      "required": ["id", "userId", "date", "weight"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "UserProfile",
+      "description": "儲存用戶的基本檔案與健康基準指標"
+    },
+    "diet_logs/{logId}": {
+      "schema": "DietLog",
+      "description": "儲存每日飲食紀錄日誌"
+    },
+    "projects/{projectId}": {
+      "schema": "FitProject",
+      "description": "儲存用戶定義的健身或雕塑大項專案"
+    },
+    "tasks/{taskId}": {
+      "schema": "FitTask",
+      "description": "儲存每日健康運動或打卡微型任務"
+    },
+    "weight_history/{entryId}": {
+      "schema": "WeightEntry",
+      "description": "紀錄與描繪體重變化的歷史軌跡"
+    }
+  }
+}
